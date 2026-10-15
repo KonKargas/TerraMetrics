@@ -1,0 +1,18 @@
+CTS_ID,CTS_Code,CTS_Name,CTS_Full_Descriptor
+1,ECCS,Surface Temperature Change,"Environment, Climate Change, Climate Indicators, Surface Temperature Change"
+2,ECCD,Climate Related Disasters Frequency,"Environment, Climate Change, Climate Indicators, Climate Related Disasters Frequency"
+3,ECCCA,Climate Altering Land Cover Index,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Climate Altering Land Cover Index"
+4,ECCCI,Climate Influence Land,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Climate Influence Land"
+5,ECCCS,Artificial Surfaces (Including Urban and Associated Areas),"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Artificial Surfaces (Including Urban and Associated Areas)"
+6,ECCCG,Grassland,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Grassland"
+7,ECCCH,Herbaceous Crops,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Herbaceous Crops"
+8,ECCCW,Inland Water Bodies,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Inland Water Bodies"
+9,ECCCM,Mangroves,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Mangroves"
+10,ECCCL,Permanent Snow and Glaciers,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Permanent Snow and Glaciers"
+11,ECCCC,Shrub-Covered Areas,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Shrub-Covered Areas"
+12,ECCCV,Shrubs and/or Herbaceous Vegetation and Aquatic Or Regularly Flooded,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Shrubs and/or Herbaceous Vegetation and Aquatic Or Regularly Flooded"
+13,ECCCN,Sparsely Natural Vegetated Areas,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Sparsely Natural Vegetated Areas"
+14,ECCCT,Terrestrial Barren Land,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Terrestrial Barren Land"
+15,ECCCE,Tree-Covered Areas,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Tree-Covered Areas"
+16,ECCCR,Woody Crops,"Environment, Climate Change, Climate Indicators, Land Cover Accounts, Woody Crops"
+17,,,

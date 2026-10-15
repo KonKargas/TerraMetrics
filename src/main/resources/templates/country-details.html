@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title th:text="|TerraMetrics - ${country.name}|">
+        Country Details
+    </title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/CountriesStyle.css}">
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+</head>
+
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('countries')}"></div>
+
+    <main class="main-content">
+
+        <div th:replace="~{fragments/navbar :: navbar('Country Details')}"></div>
+
+        <div class="countries-content">
+
+            <a class="back-link" th:href="@{/countries}">
+                <i data-lucide="arrow-left"></i>
+                Back to Countries
+            </a>
+
+            <section class="country-hero">
+                <div class="eyebrow">COUNTRY PROFILE</div>
+
+                <h1 th:text="${country.name}">Country</h1>
+
+                <p th:text="${country.officialName ?: country.name}">
+                    Official country name
+                </p>
+
+                <span class="iso-badge"
+                      th:text="${country.iso3}">ISO3</span>
+            </section>
+
+            <section class="country-stats">
+
+                <div class="mini-card">
+                    <span>Total Observations</span>
+                    <strong th:text="${statistics.totalRecords}">0</strong>
+                </div>
+
+                <div class="mini-card">
+                    <span>Available Indicators</span>
+                    <strong th:text="${statistics.totalIndicators}">0</strong>
+                </div>
+
+                <div class="mini-card">
+                    <span>First Recorded Year</span>
+                    <strong th:text="${statistics.firstYear ?: '—'}">—</strong>
+                </div>
+
+                <div class="mini-card">
+                    <span>Last Recorded Year</span>
+                    <strong th:text="${statistics.lastYear ?: '—'}">—</strong>
+                </div>
+
+            </section>
+
+            <section class="details-layout">
+
+                <div class="explorer-panel">
+                    <h2>Geographic Information</h2>
+
+                    <dl class="info-list">
+                        <div><dt>Continent</dt>
+                            <dd th:text="${country.continent ?: '—'}">—</dd></div>
+                        <div><dt>Capital</dt>
+                            <dd th:text="${country.capital ?: '—'}">—</dd></div>
+                        <div><dt>ISO2</dt>
+                            <dd th:text="${country.iso2 ?: '—'}">—</dd></div>
+                        <div><dt>Population</dt>
+                            <dd th:text="${country.population != null
+                                ? #numbers.formatInteger(country.population,1,'COMMA')
+                                : '—'}">—</dd></div>
+                        <div><dt>Area (km²)</dt>
+                            <dd th:text="${country.area != null
+                                ? #numbers.formatDecimal(country.area,1,'COMMA',2,'POINT')
+                                : '—'}">—</dd></div>
+                        <div><dt>Currency</dt>
+                            <dd th:text="${country.currency ?: '—'}">—</dd></div>
+                    </dl>
+                </div>
+
+                <div class="explorer-panel">
+                    <h2>Available Climate Datasets</h2>
+
+                    <div class="dataset-entry"
+                         th:each="dataset : ${datasets}">
+                        <span th:text="${dataset.dataset}">
+                            Dataset
+                        </span>
+                        <strong th:text="${dataset.total}">
+                            0
+                        </strong>
+                    </div>
+
+                    <p class="empty-message"
+                       th:if="${#lists.isEmpty(datasets)}">
+                        No climate observations available.
+                    </p>
+                </div>
+
+            </section>
+
+            <div th:replace="~{fragments/footer :: footer}"></div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) lucide.createIcons();
+});
+</script>
+
+</body>
+</html>

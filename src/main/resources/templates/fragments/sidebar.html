@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<aside class="sidebar" th:fragment="sidebar(activePage)">
+    
+	<a class="brand" th:href="@{/}">
+	    <img class="brand-logo"
+	         th:src="@{/images/logo.png}"
+	         alt="TerraMetrics Logo"
+	         width="45"
+	         height="45">
+	
+	    <div class="brand-details">
+	        <h2>TerraMetrics</h2>
+	        <span>Climate Analytics</span>
+	    </div>
+	</a>
+
+    <nav class="sidebar-nav" aria-label="Main navigation">
+
+        <a th:href="@{/}"
+           class="nav-link"
+           th:classappend="${activePage == 'overview'} ? ' active' : ''"
+           th:attr="aria-current=${activePage == 'overview'} ? 'page' : null">
+
+            <i data-lucide="layout-dashboard"></i>
+            <span>Overview</span>
+        </a>
+
+        <div class="nav-section">DATA EXPLORER</div>
+
+		<a th:href="@{/countries}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'countries'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'countries'} ? 'page' : null">
+		
+		    <i data-lucide="globe-2"></i>
+		    <span>Countries</span>
+		</a>
+        
+		<a th:href="@{/indicators}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'indicators'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'indicators'} ? 'page' : null">
+		
+		    <i data-lucide="leaf"></i>
+		    <span>Climate Indicators</span>
+		</a>
+
+        <div class="nav-section">ANALYTICS</div>
+
+		<a th:href="@{/visualizations}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'visualizations'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'visualizations'} ? 'page' : null">
+		
+		    <i data-lucide="chart-no-axes-combined"></i>
+		    <span>Visualizations</span>
+		</a>
+		
+		
+		<a th:href="@{/global-map}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'global-map'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'global-map'} ? 'page' : null">
+		
+		    <i data-lucide="globe-2"></i>
+		    <span>Global Climate Map</span>
+		</a>
+		
+
+		<a th:href="@{/comparisons}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'comparisons'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'comparisons'} ? 'page' : null">
+		
+		    <i data-lucide="git-compare-arrows"></i>
+		    <span>Comparisons</span>
+		
+		</a>
+
+        <div class="nav-section">MANAGEMENT</div>
+        
+		<a th:href="@{/reports}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'reports'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'reports'} ? 'page' : null">
+		
+		    <i data-lucide="file-chart-column-increasing"></i>
+		    <span>Reports &amp; Export</span>
+		</a>
+        
+		<a th:href="@{/data-sources}"
+		   class="nav-link"
+		   th:classappend="${activePage == 'data-sources'} ? ' active' : ''"
+		   th:attr="aria-current=${activePage == 'data-sources'} ? 'page' : null">
+		
+		    <i data-lucide="database"></i>
+		    <span>Data Sources</span>
+		</a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <span>TerraMetrics</span>
+        <small>Climate Data Intelligence</small>
+    </div>
+
+</aside>
+
+</body>
+</html>

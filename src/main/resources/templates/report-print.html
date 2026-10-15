@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TerraMetrics | Printable Climate Report</title>
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+<style>
+@page { size: A4 landscape; margin: 15mm; }
+body { font: 12px Arial, sans-serif; color:#182b3d; margin:24px; }
+h1 { font-size: 26px; margin: 0 0 6px; color: #127f65; }
+h2 { font-size: 15px; margin: 22px 0 12px; }
+small,p { color: #63758a; }
+.meta { display:flex; flex-wrap:wrap; gap:14px; margin:18px 0; padding:14px; background:#f3f8f7; border-radius:9px; }
+.meta div { flex:1; min-width:135px; }
+.meta b { display:block; color:#24384b; padding-top:5px; }
+table { width:100%; border-collapse:collapse; }
+th { background:#e5f2ed; text-align:left; }
+th,td { padding:8px; border-bottom:1px solid #dce7e4; }
+tr { break-inside:avoid; }
+.note { margin-top:18px; line-height:1.5; }
+.controls { margin-bottom:20px; }
+.controls button { padding:10px 18px; color:white; border:0; background:#159b77; border-radius:7px; cursor:pointer; }
+@media print { .controls { display:none; } body { margin:0; } }
+</style></head>
+<body>
+<div class="controls"><button onclick="window.print()">Print / Save as PDF</button></div>
+<h1>TerraMetrics</h1><p>Climate Data Analytics Platform — Generated Report</p>
+<div class="meta">
+    <div>Indicator<b th:text="${report.indicator.name}">Indicator</b></div>
+    <div>Dataset<b th:text="${report.indicator.dataset}">Dataset</b></div>
+    <div>Unit<b th:text="${report.indicator.unit}">Unit</b></div>
+    <div>Years<b th:text="|${report.startYear} – ${report.endYear}|">Years</b></div>
+    <div>Time grouping<b th:text="|${report.period} year(s)|">Period</b></div>
+    <div>Calculation<b th:text="${report.aggregation}">AVG</b></div>
+</div>
+<h2>Selected Countries</h2>
+<p><span th:each="c, stat : ${report.countries}" th:text="${c.name} + (${stat.last} ? '' : ', ')">Country</span></p>
+<h2 th:text="|Results (${report.rowCount} rows)|">Results</h2>
+<table><thead><tr><th>Country</th><th>Period</th><th>Value</th><th>Observations</th><th>Coverage</th></tr></thead>
+<tbody><tr th:each="r : ${report.rows}">
+    <td th:text="${r.country}">Country</td>
+    <td th:text="|${r.periodStart} – ${r.periodEnd}|">Period</td>
+    <td th:text="${#numbers.formatDecimal(r.value,1,'COMMA',3,'POINT')}">0</td>
+    <td th:text="${r.observations}">0</td>
+    <td th:text="${r.coveredYears} + '/' + ${r.expectedYears} + (${r.complete} ? ' (Complete)' : ' (Partial)')">Coverage</td>
+</tr><tr th:if="${#lists.isEmpty(report.rows)}"><td colspan="5">No data found for selected filters.</td></tr></tbody></table>
+<p class="note">Only available observations are included. Blank source cells are not treated as zero. Incomplete periods are identified using the number of distinct observed years. Source data are historical snapshots, not necessarily current national statistics.</p>
+</body></html>

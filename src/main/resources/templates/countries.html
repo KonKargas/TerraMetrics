@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TerraMetrics | Countries</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/CountriesStyle.css}">
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+</head>
+
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('countries')}"></div>
+
+    <main class="main-content">
+
+        <div th:replace="~{fragments/navbar :: navbar('Countries Explorer')}"></div>
+
+        <div class="countries-content">
+
+            <div class="page-heading">
+                <div>
+                    <div class="eyebrow">DATA EXPLORER</div>
+                    <h1>Explore Countries</h1>
+                    <p>
+                        Browse geographic data and discover
+                        available climate observations.
+                    </p>
+                </div>
+
+                <div class="result-badge">
+                    <i data-lucide="globe-2"></i>
+                    <strong th:text="${totalCountries}">0</strong>
+                    <span>Countries</span>
+                </div>
+            </div>
+
+            <section class="explorer-panel">
+
+                <form class="filter-bar"
+                      method="get"
+                      th:action="@{/countries}">
+
+                    <div class="search-field">
+                        <i data-lucide="search"></i>
+
+                        <input type="search"
+                               name="search"
+                               th:value="${search}"
+                               placeholder="Search country or ISO3...">
+                    </div>
+
+                    <select name="continent">
+                        <option value="">All Continents</option>
+
+                        <option th:each="item : ${continents}"
+                                th:value="${item}"
+                                th:text="${item}"
+                                th:selected="${item == continent}">
+                        </option>
+                    </select>
+
+                    <button class="primary-btn"
+                            type="submit">
+                        <i data-lucide="filter"></i>
+                        Apply Filters
+                    </button>
+
+                    <a class="reset-btn"
+                       th:href="@{/countries}">
+                        Reset
+                    </a>
+                </form>
+
+                <div class="table-wrapper">
+                    <table class="countries-table">
+                        <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>ISO3</th>
+                            <th>Continent</th>
+                            <th>Capital</th>
+                            <th>Population</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="country : ${countries}">
+                            <td>
+                                <span class="country-name"
+                                      th:text="${country.name}">
+                                    Country
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="iso-badge"
+                                      th:text="${country.iso3}">
+                                    ISO
+                                </span>
+                            </td>
+
+                            <td th:text="${country.continent ?: '—'}">
+                                —
+                            </td>
+
+                            <td th:text="${country.capital ?: '—'}">
+                                —
+                            </td>
+
+                            <td th:text="${country.population != null
+                                ? #numbers.formatInteger(country.population, 1, 'COMMA')
+                                : '—'}">
+                                —
+                            </td>
+
+                            <td class="action-cell">
+                                <a class="view-link"
+                                   th:href="@{/countries/{id}(id=${country.id})}">
+                                    View
+                                    <i data-lucide="arrow-up-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(countries)}">
+                            <td colspan="6" class="empty-message">
+                                No countries match your filters.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span th:text="|${totalCountries} matching countries|">
+                        Results
+                    </span>
+
+                    <div class="pagination">
+                        <a th:if="${currentPage > 1}"
+                           th:href="@{/countries(
+                               search=${search},
+                               continent=${continent},
+                               page=${currentPage - 1})}">
+                            <i data-lucide="chevron-left"></i>
+                            Previous
+                        </a>
+
+                        <span th:text="|Page ${currentPage} of ${totalPages}|">
+                            Page 1
+                        </span>
+
+                        <a th:if="${currentPage < totalPages}"
+                           th:href="@{/countries(
+                               search=${search},
+                               continent=${continent},
+                               page=${currentPage + 1})}">
+                            Next
+                            <i data-lucide="chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </section>
+
+            <div th:replace="~{fragments/footer :: footer}"></div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) lucide.createIcons();
+});
+</script>
+
+</body>
+</html>

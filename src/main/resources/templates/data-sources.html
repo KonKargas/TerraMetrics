@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TerraMetrics | Data Sources</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+  <link rel="stylesheet" th:href="@{/css/FragmentsStyle.css}">
+  <link rel="stylesheet" th:href="@{/css/DataSourcesStyle.css}">
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+</head>
+<body>
+<div class="app-layout">
+  <div th:replace="~{fragments/sidebar :: sidebar('data-sources')}"></div>
+  <main class="main-content">
+    <div th:replace="~{fragments/navbar :: navbar('Data Sources')}"></div>
+    <div class="sources-content">
+      <header class="sources-heading">
+        <span class="sources-eyebrow">DATA MANAGEMENT</span>
+        <h1>Data Sources &amp; Provenance</h1>
+        <p>Understand where TerraMetrics observations originate, how datasets relate to their sources, and what is stored in the local SQLite database.</p>
+      </header>
+
+      <section class="sources-stats" aria-label="Database summary">
+        <article class="sources-stat"><span>Climate Observations</span><strong th:text="${#numbers.formatInteger(totals.observations, 1, 'COMMA')}">0</strong><small>Valid numeric records</small></article>
+        <article class="sources-stat"><span>Geographic Entities</span><strong th:text="${totals.entities}">0</strong><small th:text="|${totals.countries} reference countries|">Countries</small></article>
+        <article class="sources-stat"><span>Climate Indicators</span><strong th:text="${totals.indicators}">0</strong><small>Available measurements</small></article>
+        <article class="sources-stat sources-stat-accent"><span>Registered Sources</span><strong th:text="${totals.sources}">0</strong><small th:text="|Coverage: ${totals.firstYear}–${totals.lastYear}|">Coverage</small></article>
+      </section>
+
+      <section class="sources-panel">
+        <div class="sources-panel-heading"><div><h2>Climate Datasets</h2><p>Dataset statistics computed directly from SQLite.</p></div><i data-lucide="layers-3"></i></div>
+        <div class="dataset-cards">
+          <article class="dataset-card" th:each="d : ${datasets}">
+            <div class="dataset-card-title"><span class="dataset-icon" th:classappend="${' ds-' + #strings.toLowerCase(d.dataset)}"><i th:attr="data-lucide=${d.dataset == 'TEMPERATURE' ? 'thermometer' : (d.dataset == 'DISASTERS' ? 'cloud-lightning' : (d.dataset == 'LAND_COVER' ? 'earth' : 'trees'))}"></i></span><span th:text="${#strings.replace(d.dataset, '_', ' ')}">Dataset</span></div>
+            <strong th:text="${#numbers.formatInteger(d.observations, 1, 'COMMA')}">0</strong><small>observations</small>
+            <div class="dataset-metrics"><span th:text="|${d.indicators} indicators|">Indicators</span><span th:text="|${d.entities} entities|">Entities</span></div>
+            <div class="dataset-period" th:text="${d.firstYear != null ? 'Coverage: ' + d.firstYear + ' – ' + d.lastYear : 'No observations'}">Period</div>
+            <a th:href="@{/indicators(dataset=${d.dataset})}">Explore indicators <i data-lucide="arrow-up-right"></i></a>
+          </article>
+        </div>
+      </section>
+
+      <section class="sources-panel">
+        <div class="sources-panel-heading"><div><h2>Original Data Providers &amp; Citations</h2><p>Source descriptions are read from the <code>sources</code> table populated by the original CSV metadata.</p></div><i data-lucide="book-open"></i></div>
+        <div class="source-list">
+          <article class="source-entry" th:each="s : ${sources}">
+            <div class="source-top"><span class="source-number" th:text="|SOURCE ${s.id}|">SOURCE</span><strong th:text="${#numbers.formatInteger(s.observations, 1, 'COMMA')} + ' observations'">Observations</strong></div>
+            <p class="source-citation" th:text="${s.citation}">Original source description</p>
+            <div class="source-metrics"><span th:text="|${s.indicators} indicators|">Indicators</span><span th:text="|${s.entities} geographic entities|">Entities</span><span th:text="${s.firstYear != null ? 'Years: ' + s.firstYear + '–' + s.lastYear : 'No coverage'}">Years</span></div>
+            <div class="source-tags">
+              <span th:each="item : ${sourceDatasets}" th:if="${item.sourceId == s.id}" th:text="${#strings.replace(item.dataset, '_', ' ')}" class="source-dataset">Dataset</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="sources-bottom-grid">
+        <article class="sources-panel">
+          <div class="sources-panel-heading"><div><h2>Data Processing</h2><p>How raw data reaches the application.</p></div><i data-lucide="workflow"></i></div>
+          <div class="etl-timeline">
+            <div><span class="step-index">01</span><div><strong>Raw CSV files</strong><p>Country metadata and four climate datasets.</p></div></div>
+            <div><span class="step-index">02</span><div><strong>ETL &amp; normalization</strong><p>Country reconciliation, year unpivot, reference IDs and numeric validation.</p></div></div>
+            <div><span class="step-index">03</span><div><strong>SQLite database</strong><p>Normalized relational tables with indexes and foreign-key references.</p></div></div>
+            <div><span class="step-index">04</span><div><strong>TerraMetrics Analytics</strong><p>Countries, charts, maps, comparisons and exports read from SQLite.</p></div></div>
+          </div>
+        </article>
+        <article class="sources-panel">
+          <div class="sources-panel-heading"><div><h2>Integrity Checks</h2><p>Read-only checks performed when this page loads.</p></div><i data-lucide="shield-check"></i></div>
+          <div class="integrity-row" th:each="c : ${checks}"><div><i th:attr="data-lucide=${c.failures == 0 ? 'check-circle-2' : 'alert-triangle'}" th:classappend="${c.failures == 0 ? ' check-ok' : ' check-fail'}"></i><span th:text="${c.label}">Check</span></div><strong th:text="${c.failures == 0 ? 'Passed' : c.failures + ' issues'}" th:classappend="${c.failures == 0 ? ' check-ok' : ' check-fail'}">Passed</strong></div>
+          <div class="quality-note"><i data-lucide="info"></i><p>These checks cover selected orphan references and invalid years, not a full audit of source accuracy. Original missing measurements are not assumed to be zero.</p></div>
+        </article>
+      </section>
+
+      <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+  </main>
+</div>
+<script>document.addEventListener('DOMContentLoaded', () => { if (window.lucide) lucide.createIcons(); });</script>
+</body>
+</html>

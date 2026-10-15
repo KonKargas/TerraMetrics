@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TerraMetrics | Overview</title>
+    
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/IndexStyle.css}">
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar('overview')}"></div>
+
+    <main class="main-content">
+
+        <!-- Navbar Fragment -->
+        <div th:replace="~{fragments/navbar :: navbar('Overview')}"></div>
+
+        <div class="content">
+
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+
+                <div class="eyebrow">
+                    DATA OVERVIEW
+                </div>
+
+                <h1>Explore Our Changing Planet</h1>
+
+                <p>
+                    Analyze global climate patterns,
+                    explore environmental indicators
+                    and discover trends across
+                    countries and decades.
+                </p>
+
+            </section>
+
+            <!-- Statistics -->
+            <section class="statistics-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Countries
+                    </div>
+
+                    <div class="stat-value"
+                         th:text="${totalCountries}">
+                        0
+                    </div>
+
+                    <div class="stat-description">
+                        Country reference records
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Geographic Entities
+                    </div>
+
+                    <div class="stat-value"
+                         th:text="${totalEntities}">
+                        0
+                    </div>
+
+                    <div class="stat-description">
+                        Countries and geographic groups
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Climate Indicators
+                    </div>
+
+                    <div class="stat-value"
+                         th:text="${totalIndicators}">
+                        0
+                    </div>
+
+                    <div class="stat-description">
+                        Available environmental metrics
+                    </div>
+
+                </div>
+
+                <div class="stat-card accent-card">
+
+                    <div class="stat-label">
+                        Total Observations
+                    </div>
+
+                    <div class="stat-value"
+                         th:text="${totalRecords}">
+                        0
+                    </div>
+
+                    <div class="stat-description">
+                        Recorded climate measurements
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Data Details -->
+            <section class="details-grid">
+
+                <!-- Datasets -->
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h3>Available Datasets</h3>
+                        <p>Climate observations by category</p>
+                    </div>
+
+                    <div class="dataset-list">
+
+                        <div class="dataset-row"
+                             th:each="dataset : ${datasetStatistics}">
+
+                            <span class="dataset-name"
+                                  th:text="${dataset.dataset}">
+                                Dataset
+                            </span>
+
+                            <span class="dataset-count"
+                                  th:text="${dataset.total}">
+                                0
+                            </span>
+
+                        </div>
+
+                        <p th:if="${#lists.isEmpty(datasetStatistics)}">
+                            No measurements available.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Data Coverage -->
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h3>Data Coverage</h3>
+                        <p>Historical observation period</p>
+                    </div>
+
+                    <div class="coverage-content">
+
+                        <div class="coverage-icon">
+                            <i data-lucide="calendar-range"></i>
+                        </div>
+
+                        <h2>
+                            <span th:text="${firstYear ?: '—'}">
+                                —
+                            </span>
+
+                            –
+
+                            <span th:text="${lastYear ?: '—'}">
+                                —
+                            </span>
+                        </h2>
+
+                        <p>
+                            Available historical data range
+                        </p>
+
+                        <div class="coverage-note">
+                            Data imported from environmental
+                            and climate-related datasets.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Footer Fragment -->
+            <div th:replace="~{fragments/footer :: footer}"></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+    });
+</script>
+
+</body>
+</html>

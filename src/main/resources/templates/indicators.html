@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TerraMetrics | Climate Indicators</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/IndicatorsStyle.css}">
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+</head>
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('indicators')}"></div>
+
+    <main class="main-content">
+
+        <div th:replace="~{fragments/navbar :: navbar('Climate Indicators')}"></div>
+
+        <div class="indicators-content">
+
+            <section class="page-heading">
+                <span class="eyebrow">DATA EXPLORER</span>
+                <h1>Climate Indicators</h1>
+                <p>
+                    Explore environmental indicators, measurement units,
+                    historical coverage and available climate observations.
+                </p>
+            </section>
+
+            <!-- Dataset Overview -->
+            <section class="dataset-grid">
+
+                <a th:each="item : ${datasetSummary}"
+                   class="dataset-card"
+                   th:href="@{/indicators(dataset=${item.dataset})}">
+
+                    <div class="dataset-card-top">
+                        <span class="dataset-icon">
+                            <i th:attr="data-lucide=${
+                                item.dataset == 'TEMPERATURE' ? 'thermometer' :
+                                item.dataset == 'DISASTERS' ? 'cloud-lightning' :
+                                item.dataset == 'LAND_COVER' ? 'earth' :
+                                'trees'
+                            }"></i>
+                        </span>
+
+                        <i data-lucide="arrow-up-right"
+                           class="card-arrow"></i>
+                    </div>
+
+                    <h3 th:text="${#strings.replace(item.dataset, '_', ' ')}">
+                        Dataset
+                    </h3>
+
+                    <strong th:text="${item.indicators}">0</strong>
+                    <span>Climate indicators</span>
+
+                    <div class="dataset-card-footer">
+                        <i data-lucide="database"></i>
+                        <span th:text="${#numbers.formatInteger(
+                            item.observations, 1, 'COMMA')}">
+                            0
+                        </span>
+                        <span>observations</span>
+                    </div>
+                </a>
+
+            </section>
+
+            <!-- Indicators Table -->
+            <section class="indicators-panel">
+
+                <div class="panel-heading">
+                    <div>
+                        <h2>Indicators Directory</h2>
+                        <p>Browse all available climate measurements.</p>
+                    </div>
+
+                    <span class="total-badge"
+                          th:text="|${totalIndicators} indicators|">
+                        0 indicators
+                    </span>
+                </div>
+
+                <form class="filter-bar"
+                      method="get" th:action="@{/indicators}">
+
+                    <div class="search-field">
+                        <i data-lucide="search"></i>
+                        <input type="search"
+                               name="search"
+                               th:value="${search}"
+                               placeholder="Search indicators or CTS categories...">
+                    </div>
+
+                    <select name="dataset">
+                        <option value="">All Datasets</option>
+                        <option th:each="d : ${datasets}"
+                                th:value="${d}"
+                                th:text="${#strings.replace(d, '_', ' ')}"
+                                th:selected="${d == dataset}">
+                        </option>
+                    </select>
+
+                    <button type="submit" class="primary-btn">
+                        <i data-lucide="filter"></i>
+                        Apply Filters
+                    </button>
+
+                    <a class="secondary-btn" th:href="@{/indicators}">
+                        Reset
+                    </a>
+                </form>
+
+                <div class="table-wrapper">
+                    <table class="indicators-table">
+                        <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Dataset</th>
+                            <th>Unit</th>
+                            <th>CTS</th>
+                            <th>Entities</th>
+                            <th>Observations</th>
+                            <th>Period</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="item : ${indicators}">
+                            <td class="indicator-name"
+                                th:text="${item.name}">
+                                Indicator name
+                            </td>
+
+                            <td>
+                                <span class="dataset-tag"
+                                      th:text="${item.dataset}">
+                                    DATASET
+                                </span>
+                            </td>
+
+                            <td th:text="${item.unit}">Unit</td>
+
+                            <td>
+                                <span class="cts-code"
+                                      th:text="${item.ctsCode}">
+                                    CTS
+                                </span>
+                            </td>
+
+                            <td th:text="${item.entities}">0</td>
+
+                            <td th:text="${#numbers.formatInteger(
+                                item.observations, 1, 'COMMA')}">
+                                0
+                            </td>
+
+                            <td th:text="${item.firstYear != null ?
+                                item.firstYear + ' – ' + item.lastYear :
+                                '—'}">
+                                —
+                            </td>
+
+                            <td>
+                                <a class="view-link"
+                                   th:href="@{/indicators/{id}(id=${item.id})}">
+                                    View
+                                    <i data-lucide="arrow-up-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(indicators)}">
+                            <td colspan="8" class="empty-state">
+                                No indicators match your filters.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-footer">
+                    <span th:text="|${totalIndicators} matching indicators|">
+                        Results
+                    </span>
+
+                    <div class="pagination">
+                        <a th:if="${currentPage > 1}"
+                           th:href="@{/indicators(
+                               search=${search},
+                               dataset=${dataset},
+                               page=${currentPage - 1})}">
+                            <i data-lucide="chevron-left"></i>
+                            Previous
+                        </a>
+
+                        <span th:text="|Page ${currentPage} of ${totalPages}|">
+                            Page 1
+                        </span>
+
+                        <a th:if="${currentPage < totalPages}"
+                           th:href="@{/indicators(
+                               search=${search},
+                               dataset=${dataset},
+                               page=${currentPage + 1})}">
+                            Next
+                            <i data-lucide="chevron-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <div th:replace="~{fragments/footer :: footer}"></div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) lucide.createIcons();
+});
+</script>
+</body>
+</html>

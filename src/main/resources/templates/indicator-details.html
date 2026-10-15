@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    
+	<title th:text="${'TerraMetrics | ' + indicator.name}">
+	    TerraMetrics | Indicator Details
+	</title>
+	
+	<!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/IndicatorsStyle.css}">
+
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+</head>
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('indicators')}"></div>
+
+    <main class="main-content">
+        <div th:replace="~{fragments/navbar :: navbar('Indicator Details')}"></div>
+
+        <div class="indicators-content">
+
+            <a class="back-link" th:href="@{/indicators}">
+                <i data-lucide="arrow-left"></i>
+                Back to Indicators
+            </a>
+
+            <section class="page-heading">
+                <span class="eyebrow">INDICATOR PROFILE</span>
+
+                <h1 th:text="${indicator.name}">
+                    Climate Indicator
+                </h1>
+
+                <p th:text="${indicator.description ?: 'No CTS description available.'}">
+                    Indicator description
+                </p>
+
+                <div class="profile-tags">
+                    <span class="dataset-tag"
+                          th:text="${indicator.dataset}">
+                        DATASET
+                    </span>
+                    <span class="cts-code"
+                          th:text="${indicator.ctsCode}">
+                        CTS
+                    </span>
+                </div>
+            </section>
+
+            <section class="indicator-statistics">
+
+                <div class="stat-card">
+                    <span>Total Observations</span>
+                    <strong th:text="${#numbers.formatInteger(
+                        indicator.observations, 1, 'COMMA')}">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Geographic Entities</span>
+                    <strong th:text="${indicator.entities}">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>First Recorded Year</span>
+                    <strong th:text="${indicator.firstYear ?: '—'}">—</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Last Recorded Year</span>
+                    <strong th:text="${indicator.lastYear ?: '—'}">—</strong>
+                </div>
+
+            </section>
+
+            <section class="details-grid">
+
+                <article class="indicators-panel">
+                    <h2>Indicator Information</h2>
+
+                    <dl class="info-list">
+                        <div>
+                            <dt>Dataset</dt>
+                            <dd th:text="${indicator.dataset}">—</dd>
+                        </div>
+                        <div>
+                            <dt>Measurement Unit</dt>
+                            <dd th:text="${indicator.unit}">—</dd>
+                        </div>
+                        <div>
+                            <dt>CTS Code</dt>
+                            <dd th:text="${indicator.ctsCode}">—</dd>
+                        </div>
+                        <div>
+                            <dt>CTS Name</dt>
+                            <dd th:text="${indicator.ctsName}">—</dd>
+                        </div>
+                        <div>
+                            <dt>CTS Description</dt>
+                            <dd th:text="${indicator.description ?: '—'}">—</dd>
+                        </div>
+                    </dl>
+                </article>
+
+                <article class="indicators-panel">
+                    <h2>Data Sources</h2>
+
+                    <div class="detail-row"
+                         th:each="source : ${sources}">
+                        <span th:text="${source.name}">Source</span>
+                        <strong th:text="${#numbers.formatInteger(
+                            source.observations, 1, 'COMMA')}">0</strong>
+                    </div>
+
+                    <p class="empty-state"
+                       th:if="${#lists.isEmpty(sources)}">
+                        No sources available.
+                    </p>
+                </article>
+            </section>
+
+            <section class="indicators-panel coverage-panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Geographic Coverage</h2>
+                        <p>Top 15 geographic entities by observation count.</p>
+                    </div>
+                    <i data-lucide="globe-2"></i>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="indicators-table">
+                        <thead>
+                        <tr>
+                            <th>Geographic Entity</th>
+                            <th>ISO3</th>
+                            <th>Observations</th>
+                            <th>First Year</th>
+                            <th>Last Year</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="entity : ${coverage}">
+                            <td class="indicator-name"
+                                th:text="${entity.name}">Entity</td>
+                            <td th:text="${entity.iso3}">ISO3</td>
+                            <td th:text="${entity.observations}">0</td>
+                            <td th:text="${entity.firstYear}">—</td>
+                            <td th:text="${entity.lastYear}">—</td>
+                        </tr>
+
+                        <tr th:if="${#lists.isEmpty(coverage)}">
+                            <td colspan="5" class="empty-state">
+                                No observations available.
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div th:replace="~{fragments/footer :: footer}"></div>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.lucide) lucide.createIcons();
+});
+</script>
+</body>
+</html>

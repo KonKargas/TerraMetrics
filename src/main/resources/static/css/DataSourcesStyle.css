@@ -1,0 +1,439 @@
+/* TerraMetrics — Data Sources (page-specific styles) */
+
+.sources-content {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 42px 40px;
+}
+
+.sources-heading {
+    margin-bottom: 29px;
+}
+
+.sources-eyebrow {
+    display: block;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 11px;
+}
+
+.sources-heading h1 {
+    font-size: clamp(25px,3vw,35px);
+    letter-spacing: -1px;
+    margin: 0 0 12px;
+}
+
+.sources-heading p {
+    max-width: 830px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.sources-stats {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.sources-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 0;
+    padding: 25px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+
+.sources-stat>span {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.sources-stat strong {
+    font-size: clamp(23px,2.4vw,31px);
+    letter-spacing: -1px;
+    overflow-wrap: anywhere;
+}
+
+.sources-stat small {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+.sources-stat-accent {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+}
+
+.sources-stat-accent>span,.sources-stat-accent small {
+    color: rgba(255,255,255,.83);
+}
+
+.sources-panel {
+    padding: 27px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    min-width: 0;
+    margin-bottom: 25px;
+}
+
+.sources-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 23px;
+}
+
+.sources-panel-heading h2 {
+    font-size: 17px;
+    margin: 0 0 7px;
+}
+
+.sources-panel-heading p {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.sources-panel-heading>svg {
+    height: 21px;
+    width: 21px;
+    color: var(--green);
+    flex-shrink: 0;
+}
+
+.dataset-cards {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 15px;
+}
+
+.dataset-card {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+    background: #fbfcfd;
+}
+
+.dataset-card-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 11px;
+    font-weight: 800;
+    min-height: 38px;
+}
+
+.dataset-icon {
+    border-radius: 9px;
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: #e8f7f0;
+    color: #159b77;
+    flex-shrink: 0;
+}
+
+.dataset-icon.ds-temperature {
+    background: #fff3da;
+    color: #c87823;
+}
+
+.dataset-icon.ds-disasters {
+    background: #ffebeb;
+    color: #c04646;
+}
+
+.dataset-icon.ds-land_cover {
+    background: #f3e9da;
+    color: #9a6b3d;
+}
+
+.dataset-icon.ds-forest_carbon {
+    background: #e7f6e8;
+    color: #267b42;
+}
+
+.dataset-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.dataset-card>strong {
+    font-size: 26px;
+    letter-spacing: -.7px;
+}
+
+.dataset-card>small {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.dataset-metrics {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.dataset-metrics span {
+    padding: 6px 8px;
+    border-radius: 6px;
+    background: #e9f4ef;
+    color: #287e61;
+}
+
+.dataset-period {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    width: 100%;
+    margin-top: auto;
+}
+
+.dataset-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--green);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.dataset-card a:hover {
+    text-decoration: underline;
+}
+
+.dataset-card a svg {
+    width: 14px;
+    height: 14px;
+}
+
+.source-list {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 16px;
+}
+
+.source-entry {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 21px;
+    background: #fbfcfe;
+}
+
+.source-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.source-number {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--green);
+    background: #e8f7f0;
+    padding: 7px 9px;
+    border-radius: 6px;
+}
+
+.source-top strong {
+    font-size: 11px;
+    color: var(--text);
+    text-align: right;
+}
+
+.source-citation {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--text);
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.source-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+    padding-top: 14px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.source-tags {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 13px;
+}
+
+.source-dataset {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 7px 9px;
+    border-radius: 6px;
+    color: #3e5b83;
+    background: #eaf0f8;
+}
+
+.sources-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.sources-bottom-grid .sources-panel {
+    margin-bottom: 0;
+}
+
+.etl-timeline {
+    display: grid;
+    gap: 20px;
+}
+
+.etl-timeline>div {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.step-index {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    background: #e7f6ef;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+}
+
+.etl-timeline strong {
+    font-size: 12px;
+}
+
+.etl-timeline p {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-top: 5px;
+}
+
+.integrity-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    padding: 15px 0;
+    font-size: 12px;
+}
+
+.integrity-row>div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.integrity-row svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.integrity-row strong {
+    white-space: nowrap;
+    font-size: 11px;
+}
+
+.check-ok {
+    color: var(--green);
+}
+
+.check-fail {
+    color: #cf542f;
+}
+
+.quality-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px;
+    margin-top: 23px;
+    background: #f4f7fa;
+    border-radius: 9px;
+    color: var(--muted);
+}
+
+.quality-note svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+.quality-note p {
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+@media (max-width:1200px) {
+    .sources-stats,.dataset-cards {
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+}
+
+@media (max-width:950px) {
+    .sources-bottom-grid,.source-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width:850px) {
+    .sources-content {
+        padding: 30px 22px;
+    }
+
+    .sources-panel {
+        padding: 21px;
+    }
+}
+
+@media (max-width:560px) {
+    .sources-stats,.dataset-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .source-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

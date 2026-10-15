@@ -1,0 +1,39 @@
+# Build outputs
+/target/
+/build/
+/out/
+*.class
+*.log
+
+# IDE metadata
+.classpath
+.project
+.settings/
+.factorypath
+.springBeans
+.sts4-cache/
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Runtime SQLite files / snapshots
+/data/backups/
+/data/*.db-journal
+/data/*.db-wal
+/data/*.db-shm
+/data/*-import.tmp.db
+/data/terrametrics.db
+# Intentionally tracked: /data/climate.db (demo-ready database)
+
+# Secrets / machine-specific overrides
+.env
+.env.*
+!.env.example
+application-local.properties
+*.secret

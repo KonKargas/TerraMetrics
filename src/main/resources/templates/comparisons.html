@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>TerraMetrics | Comparisons</title>
+    
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+
+    <link rel="stylesheet"
+          th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet"
+          th:href="@{/css/ComparisonsStyle.css}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"
+            defer></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+            defer></script>
+    <script th:src="@{/js/Comparisons.js}" defer></script>
+</head>
+
+<body>
+<div class="app-layout">
+
+    <div th:replace="~{fragments/sidebar :: sidebar('comparisons')}"></div>
+
+    <main class="main-content">
+        <div th:replace="~{fragments/navbar :: navbar('Country Comparisons')}"></div>
+
+        <div class="comparisons-content">
+
+            <div class="page-heading">
+                <span class="eyebrow">ADVANCED ANALYTICS</span>
+                <h1>Country Comparisons</h1>
+                <p>Compare climate indicators across countries
+                   and investigate relationships between
+                   environmental measurements.</p>
+            </div>
+
+            <div class="comparison-tabs" role="tablist"
+                 aria-label="Analysis mode">
+                <button class="tab-button active"
+                        type="button" id="trendsTab"
+                        aria-selected="true">
+                    <i data-lucide="chart-no-axes-combined"></i>
+                    Country Trends
+                </button>
+                <button class="tab-button"
+                        type="button" id="correlationTab"
+                        aria-selected="false">
+                    <i data-lucide="scatter-chart"></i>
+                    Correlation Analysis
+                </button>
+            </div>
+
+            <!-- Country Comparison -->
+            <section id="trendsSection">
+                <div class="comparison-panel">
+                    <div class="panel-heading">
+                        <h2>Compare Countries</h2>
+                        <p>Select up to five countries and
+                           one common indicator.</p>
+                    </div>
+
+                    <form id="trendsForm">
+                        <div class="form-field">
+                            <label for="countryPicker">
+                                Countries (maximum 5)
+                            </label>
+
+                            <select id="countryPicker">
+                                <option value="">Add country...</option>
+                                <option th:each="country : ${countries}"
+                                        th:value="${country.id}"
+                                        th:text="${country.name}"
+                                        th:attr="data-name=${country.name},
+                                                 data-iso=${country.id}">
+                                </option>
+                            </select>
+
+                            <div id="selectedCountries"
+                                 class="selected-countries"></div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="trendDataset">Dataset</label>
+                                <select id="trendDataset" required>
+                                    <option value="">Select dataset</option>
+                                    <option th:each="d : ${datasets}"
+                                            th:value="${d}"
+                                            th:text="${d}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendIndicator">Indicator</label>
+                                <select id="trendIndicator" required
+                                        disabled>
+                                    <option value="">Select indicator</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendStart">From Year</label>
+                                <input type="number" id="trendStart"
+                                       min="1800" max="2200"
+                                       value="1961" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendEnd">To Year</label>
+                                <input type="number" id="trendEnd"
+                                       min="1800" max="2200"
+                                       value="2023" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendPeriod">Aggregation</label>
+                                <select id="trendPeriod">
+                                    <option value="1">Yearly</option>
+                                    <option value="5">5-Year Period</option>
+                                    <option value="10">10-Year Period</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendFunction">Calculation</label>
+                                <select id="trendFunction">
+                                    <option value="AVG">Average (AVG)</option>
+                                    <option value="SUM">Total (SUM)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="trendChartType">Chart Type</label>
+                                <select id="trendChartType">
+                                    <option value="line">Line Chart</option>
+                                    <option value="bar">Bar Chart</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">
+                                <i data-lucide="play"></i>
+                                Generate Comparison
+                            </button>
+
+                            <button type="button"
+                                    id="resetTrends"
+                                    class="secondary-button">
+                                <i data-lucide="rotate-ccw"></i>
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="comparison-panel">
+                    <div class="chart-heading">
+                        <div>
+                            <h2 id="trendsTitle">Climate Trends</h2>
+                            <p id="trendsSubtitle">
+                                Choose countries and an indicator.
+                            </p>
+                        </div>
+
+                        <button class="download-button"
+                                type="button"
+                                id="downloadTrends" disabled>
+                            <i data-lucide="download"></i>
+                            Export PNG
+                        </button>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+                    <p id="trendsMessage"
+                       class="chart-message"
+                       role="status" aria-live="polite"></p>
+                </div>
+
+                <div class="comparison-panel">
+                    <h2>Country Summary</h2>
+                    <div class="table-scroll">
+                        <table class="summary-table">
+                            <thead>
+                                <tr>
+                                    <th>Country</th>
+                                    <th>Data Points</th>
+                                    <th>Minimum</th>
+                                    <th>Maximum</th>
+                                    <th>Average</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trendsSummary">
+                                <tr>
+                                    <td colspan="5" class="empty-row">
+                                        Generate a comparison to see statistics.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Correlation Analysis -->
+            <section id="correlationSection" hidden>
+                <div class="comparison-panel">
+                    <div class="panel-heading">
+                        <h2>Correlation Analysis</h2>
+                        <p>Compare two indicators for the same
+                           country across matching years.</p>
+                    </div>
+
+                    <form id="correlationForm">
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="correlationCountry">Country</label>
+                                <select id="correlationCountry" required>
+                                    <option value="">Select country</option>
+                                    <option th:each="c : ${countries}"
+                                            th:value="${c.id}"
+                                            th:text="${c.name}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationDatasetX">
+                                    X-Axis Dataset
+                                </label>
+                                <select id="correlationDatasetX" required>
+                                    <option value="">Select dataset</option>
+                                    <option th:each="d : ${datasets}"
+                                            th:value="${d}"
+                                            th:text="${d}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationIndicatorX">
+                                    X-Axis Indicator
+                                </label>
+                                <select id="correlationIndicatorX"
+                                        required disabled>
+                                    <option value="">Select indicator</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationDatasetY">
+                                    Y-Axis Dataset
+                                </label>
+                                <select id="correlationDatasetY" required>
+                                    <option value="">Select dataset</option>
+                                    <option th:each="d : ${datasets}"
+                                            th:value="${d}"
+                                            th:text="${d}">
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationIndicatorY">
+                                    Y-Axis Indicator
+                                </label>
+                                <select id="correlationIndicatorY"
+                                        required disabled>
+                                    <option value="">Select indicator</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationStart">From Year</label>
+                                <input type="number"
+                                       id="correlationStart"
+                                       min="1800" max="2200"
+                                       value="1990" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="correlationEnd">To Year</label>
+                                <input type="number" id="correlationEnd"
+                                       min="1800" max="2200"
+                                       value="2023" required>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="primary-button" type="submit">
+                                <i data-lucide="scatter-chart"></i>
+                                Analyze Correlation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="comparison-panel">
+                    <div class="chart-heading">
+                        <div>
+                            <h2>Indicator Correlation</h2>
+                            <p id="correlationSubtitle">
+                                Each point represents one matching year.
+                            </p>
+                        </div>
+                        <button id="downloadCorrelation"
+                                class="download-button"
+                                type="button" disabled>
+                            <i data-lucide="download"></i>
+                            Export PNG
+                        </button>
+                    </div>
+
+                    <div class="chart-container">
+                        <canvas id="correlationChart"></canvas>
+                    </div>
+                    <p id="correlationMessage"
+                       class="chart-message"
+                       role="status" aria-live="polite"></p>
+                </div>
+
+                <div class="correlation-summary">
+                    <div class="summary-card">
+                        <span>Matched Years</span>
+                        <strong id="matchedYears">—</strong>
+                    </div>
+                    <div class="summary-card">
+                        <span>Pearson Correlation (r)</span>
+                        <strong id="correlationCoefficient">—</strong>
+                    </div>
+                </div>
+
+                <p class="analysis-note">
+                    Correlation describes association, not causation.
+                    Missing years are excluded from the analysis.
+                </p>
+            </section>
+
+            <div th:replace="~{fragments/footer :: footer}"></div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

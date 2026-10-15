@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TerraMetrics | Reports &amp; Export</title>
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/ReportsStyle.css}">
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script th:src="@{/js/Reports.js}" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar('reports')}"></div>
+    <main class="main-content">
+        <div th:replace="~{fragments/navbar :: navbar('Reports & Export')}"></div>
+        <div class="reports-content">
+            <section class="page-heading">
+                <span class="eyebrow">DATA REPORTING</span>
+                <h1>Reports &amp; Export</h1>
+                <p>Build a custom climate report, inspect actual observations and export your results.</p>
+            </section>
+            <section class="report-panel">
+                <div class="section-heading"><div><h2>Report Configuration</h2>
+                    <p>Choose up to five countries, an indicator and a time period.</p></div>
+                    <i data-lucide="sliders-horizontal"></i>
+                </div>
+                <form id="reportForm">
+                    <div class="form-grid">
+                        <label class="field wide">Countries
+                            <select id="countryPicker"><option value="">Add a country...</option>
+                                <option th:each="c : ${countries}" th:value="${c.id}" th:text="${c.name}"></option>
+                            </select>
+                            <span class="selected-countries" id="selectedCountries"></span>
+                            <small>Maximum five. Remove a country with ×.</small>
+                        </label>
+                        <label class="field">Dataset
+                            <select id="reportDataset" required>
+                                <option value="">Select dataset</option>
+                                <option th:each="d : ${datasets}" th:value="${d}" th:text="${#strings.replace(d, '_', ' ')}"></option>
+                            </select>
+                        </label>
+                        <label class="field wide">Indicator
+                            <select id="reportIndicator" required disabled><option value="">Select indicator</option></select>
+                        </label>
+                        <label class="field">From year<input id="reportStart" type="number" min="1800" max="2200" value="1961" required></label>
+                        <label class="field">To year<input id="reportEnd" type="number" min="1800" max="2200" value="2023" required></label>
+                        <label class="field">Time grouping
+                            <select id="reportPeriod"><option value="1">Yearly</option><option value="5">5-year periods</option><option value="10">10-year periods</option></select>
+                        </label>
+                        <label class="field">Calculation
+                            <select id="reportAggregation"><option value="AVG">Average (AVG)</option><option value="SUM">Total (SUM)</option></select>
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button class="primary-btn" type="submit"><i data-lucide="table-properties"></i> Generate Report</button>
+                        <button class="secondary-btn" type="button" id="resetReport"><i data-lucide="rotate-ccw"></i> Reset</button>
+                    </div>
+                </form>
+            </section>
+            <section class="report-panel">
+                <div class="section-heading results-heading">
+                    <div><h2>Report Preview</h2><p id="reportSubtitle">Configure and generate a report to view the results.</p></div>
+                    <div class="export-actions">
+                        <button id="exportCsv" type="button" class="secondary-btn" disabled><i data-lucide="file-spreadsheet"></i> Export CSV</button>
+                        <button id="exportPdf" type="button" class="primary-btn" disabled><i data-lucide="printer"></i> Print / Save PDF</button>
+                    </div>
+                </div>
+                <div class="report-summary">
+                    <div><span>Rows</span><strong id="totalRows">—</strong></div>
+                    <div><span>Countries</span><strong id="totalSelected">—</strong></div>
+                    <div><span>Coverage</span><strong id="reportCoverage">—</strong></div>
+                </div>
+                <div class="table-scroll">
+                    <table class="report-table">
+                        <thead><tr><th>Country</th><th>Period</th><th>Value</th><th>Observations</th><th>Coverage</th></tr></thead>
+                        <tbody id="reportResults"><tr><td colspan="5" class="empty-row">Your report preview will appear here.</td></tr></tbody>
+                    </table>
+                </div>
+                <p id="reportMessage" class="report-message" role="status" aria-live="polite"></p>
+                <p class="report-footnote">Missing data is not treated as zero. Periods with incomplete annual coverage are marked “Partial”. Average and sum apply to available observations only. Data reflect the imported historical CSV datasets.</p>
+            </section>
+            <div th:replace="~{fragments/footer :: footer}"></div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

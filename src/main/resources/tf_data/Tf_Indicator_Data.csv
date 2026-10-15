@@ -1,0 +1,29 @@
+IndicatorID,Dataset,Value,UnitID,CTS_ID
+1,TEMPERATURE,"Temperature change with respect to a baseline climatology, corresponding to the period 1951-1980",1,1
+2,DISASTERS,"Climate related disasters frequency, Number of Disasters: Drought",2,2
+3,DISASTERS,"Climate related disasters frequency, Number of Disasters: Extreme temperature",2,2
+4,DISASTERS,"Climate related disasters frequency, Number of Disasters: Flood",2,2
+5,DISASTERS,"Climate related disasters frequency, Number of Disasters: Landslide",2,2
+6,DISASTERS,"Climate related disasters frequency, Number of Disasters: Storm",2,2
+7,DISASTERS,"Climate related disasters frequency, Number of Disasters: TOTAL",2,2
+8,DISASTERS,"Climate related disasters frequency, Number of Disasters: Wildfire",2,2
+9,LAND_COVER,Climate Altering Land Cover Index,3,3
+10,LAND_COVER,Total Land Cover,4,4
+11,LAND_COVER,Artificial surfaces (including urban and associated areas),4,5
+12,LAND_COVER,Grassland,4,6
+13,LAND_COVER,Herbaceous crops,4,7
+14,LAND_COVER,Inland water bodies,4,8
+15,LAND_COVER,Mangroves,4,9
+16,LAND_COVER,Permanent snow and glaciers,4,10
+17,LAND_COVER,Shrub-covered areas,4,11
+18,LAND_COVER,"Shrubs and/or herbaceous vegetation, aquatic or regularly flooded",4,12
+19,LAND_COVER,Sparsely natural vegetated areas,4,13
+20,LAND_COVER,Terrestrial barren land,4,14
+21,LAND_COVER,Tree-covered areas,4,15
+22,LAND_COVER,Woody crops,4,16
+23,FOREST_CARBON,Carbon stocks in forests,5,17
+24,FOREST_CARBON,Forest area,4,17
+25,FOREST_CARBON,Index of carbon stocks in forests,3,17
+26,FOREST_CARBON,Index of forest extent,3,17
+27,FOREST_CARBON,Land area,4,17
+28,FOREST_CARBON,Share of forest area,6,17

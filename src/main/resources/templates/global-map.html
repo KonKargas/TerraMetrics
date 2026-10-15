@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TerraMetrics | Global Climate Map</title>
+    <!-- Favicon -->
+	<link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/FragmentsStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/GlobalMapStyle.css}">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+    <script th:src="@{/js/GlobalMap.js}" defer></script>
+</head>
+<body>
+<div class="app-layout">
+    <div th:replace="~{fragments/sidebar :: sidebar('global-map')}"></div>
+    <main class="main-content">
+        <div th:replace="~{fragments/navbar :: navbar('Global Climate Map')}"></div>
+        <div class="map-page">
+            <div class="map-intro">
+                <span class="map-eyebrow">GEOGRAPHIC ANALYTICS</span>
+                <h1>Global Climate Map</h1>
+                <p>Explore climate indicators geographically. Select a dataset and year to visualize observed values across the world.</p>
+            </div>
+            <section class="map-card">
+                <form id="mapFilters" class="map-filters">
+                    <label>Dataset
+                        <select id="mapDataset" required>
+                            <option value="">Choose dataset</option>
+                            <option th:each="d : ${datasets}" th:value="${d}" th:text="${#strings.replace(d, '_', ' ')}"></option>
+                        </select>
+                    </label>
+                    <label>Indicator
+                        <select id="mapIndicator" required disabled><option value="">Choose indicator</option></select>
+                    </label>
+                    <label>Year
+                        <select id="mapYear" required disabled><option value="">Choose year</option></select>
+                    </label>
+                    <label>Calculation
+                        <select id="mapAggregation"><option value="AVG">Average</option><option value="SUM">Sum</option></select>
+                    </label>
+                    <button class="map-submit" type="submit"><i data-lucide="refresh-cw"></i> Update map</button>
+                </form>
+                <div class="map-toolbar">
+                    <div>
+                        <h2 id="mapTitle">Climate distribution</h2>
+                        <p id="mapSubtitle">Select an indicator to view its geographic distribution.</p>
+                    </div>
+                    <button id="resetZoom" type="button" class="map-zoom-button"><i data-lucide="maximize"></i> Reset view</button>
+                </div>
+                <div class="map-stage" id="mapStage">
+                    <svg id="worldMap" role="img" aria-label="Interactive climate choropleth world map" viewBox="0 0 1000 530" preserveAspectRatio="xMidYMid meet"></svg>
+                    <div id="mapTooltip" class="map-tooltip" hidden></div>
+                </div>
+                <div class="legend-row">
+                    <span>No data <i class="missing-swatch"></i></span>
+                    <div class="legend-gradient" aria-hidden="true"></div>
+                    <div class="legend-labels"><span id="legendMin">—</span><span id="legendMid">—</span><span id="legendMax">—</span></div>
+                </div>
+                <p id="mapMessage" class="map-message" role="status" aria-live="polite"></p>
+            </section>
+            <section class="map-stats">
+                <article><span>Countries with data</span><strong id="mappedCountries">—</strong></article>
+                <article><span>Lowest value</span><strong id="minClimate">—</strong></article>
+                <article><span>Highest value</span><strong id="maxClimate">—</strong></article>
+                <article><span>Global country average</span><strong id="avgClimate">—</strong></article>
+            </section>
+            <p class="map-note">Grey indicates unavailable data, not zero. Country averages are unweighted. Geographic areas and climate group aggregates without matching country boundaries are excluded. When multiple sources exist for a country/year, the selected aggregation is applied across available records.</p>
+            <div th:replace="~{fragments/footer :: footer}"></div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

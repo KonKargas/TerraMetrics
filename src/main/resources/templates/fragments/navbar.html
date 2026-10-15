@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="topbar" th:fragment="navbar(pageTitle)">
+
+    <div class="topbar-left">
+        <div class="topbar-heading">
+            <span class="topbar-caption">
+                Climate Data Intelligence Platform
+            </span>
+
+            <span class="topbar-title"
+                  th:text="${pageTitle}">
+                Overview
+            </span>
+        </div>
+    </div>
+
+    <div class="topbar-right">
+
+        <div class="topbar-database">
+            <i data-lucide="database"></i>
+
+            <span>SQLite Database</span>
+
+            <span class="status-dot"></span>
+        </div>
+
+        <div class="topbar-divider"></div>
+
+        <div class="topbar-avatar">
+            <i data-lucide="earth"></i>
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+</html>

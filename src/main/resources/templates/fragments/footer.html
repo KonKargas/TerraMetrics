@@ -1,0 +1,29 @@
+
+<footer class="content-footer" th:fragment="footer">
+
+    <div class="footer-left">
+        <span>
+            &copy;
+            <span th:text="${#dates.year(#dates.createNow())}">2026</span>
+            TerraMetrics
+        </span>
+
+        <span class="footer-separator">•</span>
+
+        <span>Climate Data Analytics Platform</span>
+    </div>
+
+    <div class="footer-right">
+        <span>Designed &amp; Developed by</span>
+
+        <strong>
+            <a href="https://kkargas.com"
+               target="_blank"
+               rel="noopener noreferrer"
+               title="Visit my Portfolio">
+                Konstantinos Kargas
+            </a>
+        </strong>
+    </div>
+
+</footer>
