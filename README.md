@@ -162,18 +162,26 @@ src/main/resources/
 
 ## Screenshots
 
-Add your own screenshots in `docs/screenshots/`, then uncomment and update these Markdown examples:
-
-<!--
 ### Dashboard
-![Overview Dashboard](docs/screenshots/dashboard.png)
 
-### Global Climate Map
-![Global Climate Map](docs/screenshots/global-climate-map.png)
+![TerraMetrics Dashboard](src/main/resources/static/screenshots/dashboard.png)
 
-### Reports
-![Reports & Export](docs/screenshots/reports-export.png)
--->
+### Countries
+
+![Countries](src/main/resources/static/screenshots/countries.png)
+
+### Country Comparisons
+
+![Country Comparison](src/main/resources/static/screenshots/comparisons.png)
+
+### Global Map
+
+![Global Map](src/main/resources/static/screenshots/map.png)
+
+### Data Visualization
+
+![Visualize Data](src/main/resources/static/screenshots/visualizations.png)
+
 
 Suggested screenshots: dashboard, countries explorer, visualizations, comparisons, global climate map, reports, and data sources. Use real captures from your running application, not mockups.
 
@@ -203,5 +211,4 @@ The database's `sources` table contains provenance records referring to **FAO / 
 [Portfolio](https://kkargas.com) · [GitHub](https://github.com/KonKargas)
 
 ## License
-
-No software license is included by default. **All rights reserved unless you explicitly choose and add a license** (for example MIT for original application code). Third-party datasets and libraries retain their own terms.
+-
