@@ -260,7 +260,7 @@ This public repository contains the Spring Boot source code, Maven configuration
 ## Author
 
 **Konstantinos Kargas**  
-Software Developer
+Full-Stack Software Engineer
 
 - Website: [kkargas.com](https://kkargas.com)
 - GitHub: [KonKargas](https://github.com/KonKargas)
