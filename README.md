@@ -262,4 +262,9 @@ This public repository contains the Spring Boot source code, Maven configuration
 **Konstantinos Kargas**  
 Software Developer
 
-[Portfolio — kkargas.com](https://kkargas.com) · [GitHub — KonKargas](https://github.com/KonKargas)
+- Website: [kkargas.com](https://kkargas.com)
+- GitHub: [KonKargas](https://github.com/KonKargas)
+
+---
+
+*TerraMetrics — climate data exploration, environmental insights, and interactive analytics.*
