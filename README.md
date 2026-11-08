@@ -1,171 +1,130 @@
 <div align="center">
 
-<img src="src/main/resources/static/images/biglogo.png" alt="TerraMetrics — Climate Data Analytics" width="360">
+<img src="src/main/resources/static/images/biglogo.png" alt="TerraMetrics Logo" width="360">
 
 # TerraMetrics
 
 ### Climate Data Analytics Platform
 
-Explore historical climate and environmental indicators through interactive visualizations, geographical exploration, country comparisons, and exportable reports.
+Explore historical climate indicators with interactive charts, country comparisons, a global choropleth map, and exportable reports.
 
-**Java 21** · **Spring Boot 4.1.1** · **Thymeleaf** · **SQLite** · **Spring JDBC** · **Chart.js** · **D3.js / TopoJSON**
+![Java](https://img.shields.io/badge/Java-21%2B-orange?style=flat-square&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.1.1-6DB33F?style=flat-square&logo=springboot&logoColor=white)
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-Templates-005F0F?style=flat-square&logo=thymeleaf&logoColor=white)
+![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![Chart.js](https://img.shields.io/badge/Charts-Chart.js-FF6384?style=flat-square&logo=chartdotjs&logoColor=white)
+![D3.js](https://img.shields.io/badge/Maps-D3.js-F9A03C?style=flat-square&logo=d3dotjs&logoColor=white)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36?style=flat-square&logo=apachemaven&logoColor=white)
 
-[Overview](#project-overview) · [Features](#core-features) · [Screenshots](#application-screenshots) · [Installation](#installation--usage) · [Data](#data-sources--methodology)
+[Features](#features) · [Technology Stack](#technology-stack) · [Run Locally](#run-locally) · [Screenshots](#application-screenshots) · [Data & Methodology](#data-and-methodology)
 
 </div>
 
 ---
 
-## Project Overview
+## Overview
 
-**TerraMetrics** is a full-stack, Java-based web application developed to make historical climate and environmental datasets easier to explore, compare, and understand. It combines a responsive web interface with a local SQLite database and a dedicated extract-transform-load (ETL) workflow.
-
-Users can browse countries and climate indicators, examine trends over time, compare multiple countries, explore a global choropleth map, and generate filtered reports. The platform is designed for analytical exploration and educational use rather than real-time monitoring or official climate-risk assessment.
+**TerraMetrics** is a Java web application for exploring historical climate data from multiple datasets. It provides a unified, SQLite-backed interface for geographic exploration, time-series analysis, multi-country comparisons, and report generation. A Java ETL pipeline transforms source CSV files into a normalized relational database.
 
 ### Database Snapshot
 
-| Metric | Included data |
+| Metric | Count / Range |
 |---|---:|
 | Climate observations | **150,219** |
 | Countries | **252** |
-| Geographic entities, including non-country entries | **275** |
+| Geographic entities (including non-country entries) | **275** |
 | Climate indicators | **28** |
-| Source datasets | **4** |
-| Overall historical coverage | **1961–2022** |
+| Data sources | **4** |
+| Observed years | **1961–2022** |
 
-> These figures describe the included SQLite snapshot. Data availability varies by country, indicator, and year; the overall date range does not imply complete coverage for each series.
+*These figures refer to the SQLite snapshot included in the repository. Coverage varies by country, indicator, and dataset.*
 
-### Core Features
+## Features
 
 | Module | Capabilities |
 |---|---|
-| **Overview Dashboard** | Summary statistics for observations, countries, geographic entities, indicators, datasets, and historical coverage. |
-| **Countries Explorer** | Search and filter countries, browse geographic information, and open country-specific views. |
-| **Climate Indicators** | Explore available indicators, their source datasets, and supporting metadata. |
-| **Data Visualizations** | Generate interactive time-series charts with country, indicator, year-range, and aggregation controls. |
-| **Country Comparisons** | Compare climate trends across selected countries and investigate relationships between indicators. |
-| **Global Climate Map** | Interactive world choropleth with indicator and year filters, contextual hover details, and clickable countries. |
-| **Reports & Export** | Filter and preview analytical results, export CSV files, and open print-friendly reports for browser-based PDF saving. |
-| **Data Sources** | Review dataset provenance, coverage information, and available quality checks. |
-| **ETL Pipeline** | Transform source CSV files, populate normalized SQLite tables, and create a database backup. |
+| **Overview Dashboard** | Dataset totals, geographic coverage, and observation ranges. |
+| **Countries Explorer** | Browse and filter countries; view individual country details. |
+| **Climate Indicators** | Explore indicators by dataset and inspect metadata. |
+| **Data Visualizations** | Interactive time-series charts, year ranges, and aggregation options. |
+| **Comparisons** | Compare country trends and explore correlations among indicators. |
+| **Global Climate Map** | Interactive choropleth with indicator/year filters, hover details, and selectable countries. |
+| **Reports & Export** | Preview filtered results, export CSV, and print or save reports as PDF. |
+| **Data Sources** | Dataset provenance, source metadata, and quality checks. |
+| **ETL Pipeline** | Transform raw CSVs, populate SQLite tables, and create database backups. |
 
-### Selected Capabilities
+### Included Datasets
 
-- Combined geographical, time-series, and comparative exploration of historical data.
-- Responsive, server-rendered pages complemented by interactive JavaScript charts and maps.
-- User-selectable time windows, grouping, and aggregation options.
-- Country-level exploration from both tables and the interactive world map.
-- Exportable analytical results and print-ready reporting.
-- Local relational storage with a reproducible CSV-to-SQLite import workflow.
-
----
+| Dataset Key | Indicators |
+|---|---:|
+| `TEMPERATURE` | 1 |
+| `DISASTERS` | 7 |
+| `FOREST_CARBON` | 6 |
+| `LAND_COVER` | 14 |
 
 ## Technology Stack
 
-| Layer | Technologies |
+| Layer | Technology |
 |---|---|
-| **Backend** | Java 21, Spring Boot 4.1.1, Spring Web MVC |
-| **Frontend** | Thymeleaf, HTML5, CSS3, JavaScript |
-| **Data Access** | Spring JDBC (`JdbcTemplate`) |
-| **Database** | SQLite |
-| **Data Processing** | Java ETL, OpenCSV |
-| **Charts** | Chart.js |
-| **Geographical Visualizations** | D3.js, TopoJSON, world-atlas data |
-| **Build & Dependencies** | Maven, Maven Wrapper |
+| Backend | Java 21, Spring Boot 4.1.1, Spring Web MVC |
+| Frontend | Thymeleaf, HTML, CSS, JavaScript |
+| Persistence | SQLite, Spring JDBC (`JdbcTemplate`) |
+| Data processing | Java, OpenCSV |
+| Visualizations | Chart.js, D3.js, TopoJSON, world-atlas |
+| Build | Maven, Maven Wrapper |
 
-The project uses a server-rendered Spring MVC architecture. Browser-side chart and map libraries are delivered through CDNs, so **internet access is needed for these visualizations** unless those dependencies are hosted locally.
+**Note:** Some chart and map libraries are served from CDNs, so internet connectivity is required for these visualizations unless the assets are made available locally.
 
-### Architecture
+## Application Architecture
 
 ```text
-                    Web Browser
-             Thymeleaf / CSS / JS
-                         |
-                  Spring MVC
-                    Controllers
-                         |
-                     Services
-                         |
-                JDBC Repositories
-                         |
-                   SQLite DB
+Browser (Thymeleaf / CSS / JavaScript)
+                  |
+          Spring MVC Controllers
+                  |
+             Service Layer
+                  |
+       JDBC Repository Layer
+                  |
+           SQLite climate.db
 
-  Source CSVs --> Java ETL --> Transformed CSVs --> SQLite DB
-                                          |
-                                     DB Backup
+Raw CSV -> Java ETL -> Normalized CSV -> SQLite
 ```
 
 ### Project Structure
 
 ```text
 src/main/java/com/kkargas/terrametrics/
-├── controller/                 # Web routes and page controllers
-├── service/                    # Validation and analytical logic
-├── repository/                 # SQL queries using Spring JDBC
-└── etl/                        # Data transformation, loading and backup
-
+  controller/           HTTP endpoints and pages
+  service/              Business, validation and reporting logic
+  repository/           Spring JDBC queries
+  etl/                  CSV transformation, import and backup
 src/main/resources/
-├── templates/                  # Thymeleaf pages and fragments
-├── static/
-│   ├── css/                   # Application styling
-│   ├── js/                    # Interactive charts, maps and reports
-│   ├── images/                # Application branding and logo
-│   └── screenshots/           # Application screenshots
-├── data/                       # Original source CSV files
-└── tf_data/                    # Transformed CSV output
-
-data/
-└── climate.db                  # Included SQLite database snapshot
+  templates/            Thymeleaf pages and fragments
+  static/css/           Application styling
+  static/js/            Chart, map and report scripts
+  static/images/        Branding assets
+  data/                 Source CSV files
+  tf_data/              Transformed CSV output
+data/climate.db          Included SQLite snapshot
 ```
 
----
-
-## Application Screenshots
-
-The screenshots below are stored in the repository and show the actual application interface.
-
-### Overview Dashboard
-
-![TerraMetrics overview dashboard](src/main/resources/static/screenshots/dashboard.png)
-
-### Countries Explorer
-
-![TerraMetrics countries explorer](src/main/resources/static/screenshots/countries.png)
-
-### Country Comparisons
-
-![TerraMetrics country comparison chart](src/main/resources/static/screenshots/comparisons.png)
-
-### Global Climate Map
-
-![TerraMetrics interactive global climate map](src/main/resources/static/screenshots/map.png)
-
-### Data Visualizations
-
-![TerraMetrics climate time-series visualization](src/main/resources/static/screenshots/visualizations.png)
-
----
-
-## Installation & Usage
+## Run Locally
 
 ### Requirements
 
-- **JDK 21** (or a compatible later JDK; the Maven build targets Java 21).
-- Internet access to download Maven dependencies and load the chart/map CDN assets.
-- Git, if cloning the repository rather than downloading its source archive.
+- **JDK 21** or compatible newer JDK (the Maven project targets Java 21).
+- Internet access for Maven dependencies and the frontend visualization CDNs.
+- Git, if cloning from the repository.
 
-### 1. Clone the Repository
+### Clone and Run
 
 ```bash
 git clone https://github.com/KonKargas/TerraMetrics.git
 cd TerraMetrics
 ```
 
-### 2. Run the Application
-
-The repository includes a populated database at `data/climate.db`. **Run the application from the repository root** so that this relative path resolves correctly.
-
-**Windows (CMD / PowerShell):**
+**Windows:**
 
 ```bat
 mvnw.cmd spring-boot:run
@@ -177,85 +136,83 @@ mvnw.cmd spring-boot:run
 ./mvnw spring-boot:run
 ```
 
-Open **http://localhost:8080/** in your browser.
+Open **http://localhost:8080/**.
+
+The repository includes the populated `data/climate.db` SQLite database. Run Maven from the repository root so its relative path resolves correctly.
 
 ### Database Configuration
 
-The default connection is configured as:
+The default JDBC URL is:
 
 ```properties
 spring.datasource.url=jdbc:sqlite:${TERRAMETRICS_DB_PATH:data/climate.db}
 ```
 
-Set the `TERRAMETRICS_DB_PATH` environment variable to use another database file. Avoid committing machine-specific absolute paths.
+You can override the database file location using the `TERRAMETRICS_DB_PATH` environment variable.
 
-### Optional: Rebuild the Database
+### Rebuild the Database (Optional)
 
-The ETL entry point is:
+Source CSV files are located in `src/main/resources/data/`. Run the following Java entry point from your IDE with the repository root as the working directory:
 
 ```text
 com.kkargas.terrametrics.etl.ClimateEtlRunner
 ```
 
-Run this class from your IDE with the working directory set to the repository root. It transforms the source CSV files in `src/main/resources/data/`, loads the database into `data/climate.db`, and creates a backup at `data/backups/climate-backup.db`.
+The ETL process transforms CSV data into `src/main/resources/tf_data/`, populates `data/climate.db`, and creates `data/backups/climate-backup.db`.
 
-> **Important:** The ETL import rebuilds or replaces the target database. Back up your existing database before running it. A running web server is not required for the ETL class.
+> **Warning:** Re-importing can replace the existing database. Back up any modifications to `data/climate.db` before running the ETL process.
 
----
+## Application Screenshots
 
-## Data Sources & Methodology
+### Overview Dashboard
 
-The project brings together four source-data categories:
+Explore dataset totals, geographic coverage, and available climate indicators.
 
-| Dataset | Number of indicators |
-|---|---:|
-| `TEMPERATURE` | 1 |
-| `DISASTERS` | 7 |
-| `FOREST_CARBON` | 6 |
-| `LAND_COVER` | 14 |
-| **Total** | **28** |
+![TerraMetrics Dashboard](src/main/resources/static/screenshots/dashboard.png)
 
-The database includes provenance information referring to **FAO / FAOSTAT** and **EM-DAT (CRED / UCLouvain)**. Data is historical and imported from local source files; the application does not automatically retrieve live updates.
+### Countries Explorer
 
-When interpreting results:
+Browse country data and examine available climate records.
 
-- Missing observations must not be interpreted as zero values.
-- Aggregated results reflect the observations available for the requested period; coverage may be partial.
-- Choropleth color intensity expresses values for the selected indicator, not an indicator-independent measure of severity.
+![Countries Explorer](src/main/resources/static/screenshots/countries.png)
+
+### Country Comparisons
+
+Compare climate trends and values across geographic regions.
+
+![Country Comparisons](src/main/resources/static/screenshots/comparisons.png)
+
+### Global Climate Map
+
+Visualize geographic patterns using an interactive world map.
+
+![Global Climate Map](src/main/resources/static/screenshots/map.png)
+
+### Data Visualization
+
+Analyze climate indicators through interactive charts.
+
+![Data Visualization](src/main/resources/static/screenshots/visualizations.png)
+
+## Data and Methodology
+
+The database's `sources` table contains provenance records referencing **FAO / FAOSTAT** datasets and **EM-DAT (CRED / UCLouvain)**. Source CSV files and their transformations are historical data snapshots, **not live data feeds**. Geographic and temporal coverage varies by indicator.
+
+**Dataset licensing:** Some FAO records refer to `CC BY-NC-SA 3.0 IGO` while other data providers apply their own reuse rules. A software license does **not** automatically authorize redistribution or commercial use of these datasets or the resulting SQLite database. Verify each provider's requirements before reuse. See [DATA_SOURCES.md](DATA_SOURCES.md).
+
+### Interpretation Notes
+
+- Missing measurements are not treated as zero.
+- Aggregation uses available records and may reflect partial period coverage.
+- Choropleth colors represent an indicator's numeric values, not necessarily climate severity.
 - Correlation does not establish causation.
 
-**Dataset licensing:** Different providers may apply different attribution, reuse, and commercial-use conditions. The provenance records identify `CC BY-NC-SA 3.0 IGO` for certain FAO datasets. Do not assume that permission to use the application code automatically grants permission to redistribute the raw data or SQLite snapshot. Consult [DATA_SOURCES.md](DATA_SOURCES.md) and the original providers' terms before redistribution or commercial reuse.
+## Limitations
 
----
-
-## Development & Implementation
-
-TerraMetrics was developed as a full-stack data analytics application combining backend engineering, relational data modeling, data transformation, and interactive frontend visualization. Its structure separates HTTP controllers, application services, SQL-based repositories, and dataset ingestion logic.
-
-The project demonstrates experience with:
-
-- Spring Boot application design and server-rendered web interfaces.
-- Relational database access using Spring JDBC and SQLite.
-- Processing and normalizing historical CSV datasets.
-- Building interactive visualizations and geographic data views.
-- Filtering, aggregation, reporting, and export workflows.
-
-### Current Limitations
-
-- The database represents a historical snapshot rather than a continuously updated data feed.
-- Interactive chart and map assets currently depend on external CDNs.
-- PDF reports are saved using the browser's **Print / Save as PDF** functionality, not a dedicated PDF backend.
-- Results are intended for exploration and education, not official climate-risk assessment.
-
----
-
-## Repository Scope
-
-This public repository contains the Spring Boot source code, Maven configuration, frontend assets, ETL logic, documentation, screenshots, and an included SQLite snapshot for local use. See [DATA_SOURCES.md](DATA_SOURCES.md) for the dataset-specific attribution and reuse considerations.
-
-**License:** No software license is declared in the repository README. Unless a license is separately added, do not assume permission to redistribute or modify the source code beyond applicable legal exceptions.
-
----
+- Historical datasets are not automatically updated.
+- CDN-loaded visualization assets require internet access.
+- PDF reports use the browser's **Print / Save as PDF** workflow; there is no dedicated server-side PDF generator.
+- TerraMetrics is an educational/analytical project, not an official climate-risk assessment service.
 
 ## Author
 
